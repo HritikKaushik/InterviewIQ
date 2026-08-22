@@ -19,13 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This license covers the source code of InterviewIQ only.
-
-The interview question data under `src/data/generated/` is derived from
-https://github.com/liquidslr/leetcode-company-wise-problems, which publishes no
-license of its own. It is redistributed here with attribution, and no ownership
-of it is claimed. Problem titles and links refer to problems on leetcode.com,
-which are the property of LeetCode; no problem statements are reproduced.

@@ -214,7 +214,8 @@ Source code is MIT licensed - see [LICENSE](LICENSE).
 
 The bundled dataset is not covered by that license: it is derived from an
 upstream repository that publishes none, is redistributed here with
-attribution, and no ownership of it is claimed.
+attribution, and no ownership of it is claimed. See [NOTICE](NOTICE) for the
+full statement.
 
 ## Attribution
 

@@ -1,0 +1,28 @@
+InterviewIQ
+Copyright (c) 2026 Hritik Kaushik
+
+The MIT license in LICENSE covers the source code of this project only. It does
+not cover the bundled data described below.
+
+--------------------------------------------------------------------------------
+Interview question data
+--------------------------------------------------------------------------------
+
+The files under `src/data/generated/` are a normalised derivative of
+
+    https://github.com/liquidslr/leetcode-company-wise-problems
+
+That repository publishes no license of its own. The data is redistributed here
+with attribution, unmodified in substance, and no ownership of it is claimed. If
+you are its author and would like it removed or licensed differently, please
+open an issue on https://github.com/HritikKaushik/InterviewIQ.
+
+--------------------------------------------------------------------------------
+LeetCode
+--------------------------------------------------------------------------------
+
+Problem titles and links refer to problems hosted on leetcode.com and are the
+property of LeetCode. No problem statements, editorials or solutions are
+reproduced in this repository, and nothing here is scraped from LeetCode at
+build time or at runtime. This project is not affiliated with or endorsed by
+LeetCode.
