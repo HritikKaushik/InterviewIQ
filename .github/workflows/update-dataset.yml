@@ -1,0 +1,68 @@
+name: Update dataset
+
+# The upstream repository is refreshed periodically. This pulls those changes
+# in, regenerates the normalised JSON and opens a pull request when anything
+# actually changed, so a dataset refresh still goes through CI and review
+# rather than landing straight on main.
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Regenerate from upstream
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch and rebuild
+        run: npm run data:update
+
+      - name: Verify the rebuild
+        run: npm run data:verify
+
+      - name: Summarise the change
+        id: summary
+        run: |
+          if git diff --quiet -- src/data/generated; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Dataset is already current." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Dataset changes"
+              echo
+              echo '```'
+              node -e "const m=require('./src/data/generated/meta.json');console.log(JSON.stringify(m.totals,null,2))"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open a pull request
+        if: steps.summary.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/update-dataset
+          delete-branch: true
+          title: "Update dataset from upstream"
+          commit-message: "Update dataset from upstream"
+          body: |
+            Regenerated `src/data/generated/` from the latest
+            [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems)
+            snapshot.
+
+            `npm run data:verify` passed against the new source before this PR
+            was opened. See `meta.json` for the upstream SHA and totals.
+          add-paths: src/data/generated

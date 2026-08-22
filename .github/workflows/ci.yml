@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# A newer push to the same branch makes an in-flight run obsolete.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Typecheck, lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Runs `next typegen` first: PageProps/LayoutProps are generated into
+      # .next/types, so a bare tsc fails on a clean checkout.
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  data:
+    name: Verify dataset against upstream
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch upstream dataset
+        run: npm run data:fetch
+
+      # Asserts the committed JSON still reproduces the CSVs it was built from.
+      # Fails if the generated data was hand-edited or a rebuild was skipped.
+      - name: Verify committed data reproduces the source
+        run: npm run data:verify
+
+      - name: Check the generated data is up to date with the checkout
+        run: |
+          npm run data:build
+          if ! git diff --quiet -- src/data/generated; then
+            echo "::warning::Upstream has changed since this data was generated."
+            echo "Run 'npm run data:update' and commit the result."
+            git diff --stat -- src/data/generated
+          else
+            echo "Generated data matches the current upstream snapshot."
+          fi

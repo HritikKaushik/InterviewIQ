@@ -9,10 +9,10 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://codeprep.vercel.app"),
+  metadataBase: new URL("https://interview-iq-steel.vercel.app"),
   title: {
-    default: "CodePrep - Company-wise LeetCode Questions",
-    template: "%s - CodePrep",
+    default: "InterviewIQ - Company-wise LeetCode Questions",
+    template: "%s - InterviewIQ",
   },
   description:
     "Explore company-wise LeetCode interview questions with powerful search, filtering, and study tracking.",
@@ -25,14 +25,14 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    siteName: "CodePrep",
-    title: "CodePrep - Company-wise LeetCode Questions",
+    siteName: "InterviewIQ",
+    title: "InterviewIQ - Company-wise LeetCode Questions",
     description:
       "Explore company-wise LeetCode interview questions with powerful search, filtering, and study tracking.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CodePrep - Company-wise LeetCode Questions",
+    title: "InterviewIQ - Company-wise LeetCode Questions",
     description:
       "Explore company-wise LeetCode interview questions with powerful search, filtering, and study tracking.",
   },

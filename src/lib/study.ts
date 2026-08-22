@@ -15,23 +15,47 @@ export const STUDY_STATUSES: { id: StudyStatus; label: string }[] = [
   { id: "revisiting", label: "Revisiting" },
 ];
 
-const KEY = "codeprep:study:v1";
+const KEY = "interviewiq:study:v1";
+
+/**
+ * The key used before the app was renamed. Anyone who tracked progress on the
+ * deployed site under the old name is migrated on first read rather than
+ * silently losing it.
+ */
+const LEGACY_KEY = "codeprep:study:v1";
 
 type StudyMap = Record<string, "solved" | "revisiting">;
 
 let cache: StudyMap | null = null;
 const listeners = new Set<() => void>();
 
+function parseMap(raw: string | null): StudyMap | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? (parsed as StudyMap)
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function read(): StudyMap {
   if (cache) return cache;
   if (typeof window === "undefined") return (cache = {});
   try {
-    const raw = window.localStorage.getItem(KEY);
-    const parsed = raw ? (JSON.parse(raw) as unknown) : {};
-    cache =
-      parsed && typeof parsed === "object" && !Array.isArray(parsed)
-        ? (parsed as StudyMap)
-        : {};
+    const current = parseMap(window.localStorage.getItem(KEY));
+    if (current) return (cache = current);
+
+    const legacy = parseMap(window.localStorage.getItem(LEGACY_KEY));
+    if (legacy) {
+      cache = legacy;
+      window.localStorage.setItem(KEY, JSON.stringify(legacy));
+      window.localStorage.removeItem(LEGACY_KEY);
+      return cache;
+    }
+    cache = {};
   } catch {
     // Corrupted or unavailable storage must never break the explorer.
     cache = {};

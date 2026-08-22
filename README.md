@@ -1,4 +1,9 @@
-# CodePrep
+# InterviewIQ
+
+[![CI](https://github.com/HritikKaushik/InterviewIQ/actions/workflows/ci.yml/badge.svg)](https://github.com/HritikKaushik/InterviewIQ/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**Live: https://interview-iq-steel.vercel.app**
 
 Company-wise LeetCode interview questions, with fast search, combinable filters
 and local progress tracking.
@@ -175,22 +180,41 @@ values rather than indices, so links survive a dataset rebuild:
 ## Study progress
 
 Marking a problem cycles Not started -> Solved -> Revisiting. Progress is stored
-in `localStorage` under `codeprep:study:v1`, survives reloads, syncs across tabs,
+in `localStorage` under `interviewiq:study:v1`, survives reloads, syncs across tabs,
 and can be filtered on. There is no account and nothing leaves the browser.
 
-## Deployment
+## Continuous integration and deployment
 
-Deploys to Vercel with no configuration: import the repository and accept the
-detected Next.js defaults. The build prerenders every company page, so the
-output is fully static and needs no runtime environment variables.
+**CI** (`.github/workflows/ci.yml`) runs on every push and pull request to
+`main`:
+
+- `build` - `npm run typecheck`, `npm run lint`, `npm run build`.
+- `data` - clones the upstream dataset and runs `npm run data:verify` against
+  the committed JSON, so hand-edited or stale generated data fails the build.
+  It also warns when upstream has moved on since the last regeneration.
+
+**Dataset refresh** (`.github/workflows/update-dataset.yml`) runs weekly and on
+demand. It regenerates from upstream, verifies the result, and opens a pull
+request only when something changed, so refreshed data still goes through CI.
+
+**Deployment** is handled by Vercel, which builds and promotes every push to
+`main` at https://interview-iq-steel.vercel.app. No configuration or environment variables are needed: the
+build prerenders every company page and the dataset is committed, so builds
+never depend on GitHub being reachable. Any static-capable Next.js host works
+the same way.
 
 ```bash
 npx vercel        # preview
 npx vercel --prod # production
 ```
 
-Any static-capable Next.js host works the same way. Because the dataset is
-committed, builds never depend on GitHub being reachable.
+## License
+
+Source code is MIT licensed - see [LICENSE](LICENSE).
+
+The bundled dataset is not covered by that license: it is derived from an
+upstream repository that publishes none, is redistributed here with
+attribution, and no ownership of it is claimed.
 
 ## Attribution
 

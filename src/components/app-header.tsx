@@ -42,7 +42,7 @@ export function AppHeader({ onOpenSidebar }: { onOpenSidebar?: () => void }) {
             <SquareCode className="size-4" strokeWidth={2.25} />
           </span>
           <span className="flex min-w-0 flex-col leading-none">
-            <span className="text-[15px] font-semibold tracking-tight">CodePrep</span>
+            <span className="text-[15px] font-semibold tracking-tight">InterviewIQ</span>
             <span className="mt-0.5 hidden truncate text-[11px] text-muted-foreground sm:block">
               Company-wise LeetCode Interview Questions
             </span>
