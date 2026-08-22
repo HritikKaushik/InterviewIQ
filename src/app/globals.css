@@ -1,0 +1,205 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Light and dark are tuned independently rather than inverted: the dark theme
+ * uses a cool near-black with lifted surfaces and slightly desaturated accents
+ * so that difficulty colours stay legible without glowing.
+ */
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(0.994 0.001 260);
+  --foreground: oklch(0.185 0.008 262);
+
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.52 0.196 267);
+  --primary-foreground: oklch(0.99 0.002 260);
+
+  --secondary: oklch(0.968 0.003 262);
+  --secondary-foreground: oklch(0.28 0.012 262);
+
+  --muted: oklch(0.971 0.003 262);
+  --muted-foreground: oklch(0.505 0.013 262);
+
+  --accent: oklch(0.962 0.006 264);
+  --accent-foreground: oklch(0.24 0.012 262);
+
+  --destructive: oklch(0.556 0.208 26);
+  --destructive-foreground: oklch(0.99 0.002 260);
+
+  --border: oklch(0.917 0.004 262);
+  --input: oklch(0.906 0.005 262);
+  --ring: oklch(0.52 0.196 267);
+
+  /* Semantic difficulty ramp - deliberately muted so the table reads as a
+     developer tool rather than a dashboard. */
+  --easy: oklch(0.505 0.128 156);
+  --easy-bg: oklch(0.955 0.037 156);
+  --easy-border: oklch(0.878 0.062 156);
+
+  --medium: oklch(0.545 0.126 66);
+  --medium-bg: oklch(0.962 0.045 78);
+  --medium-border: oklch(0.885 0.072 76);
+
+  --hard: oklch(0.545 0.192 23);
+  --hard-bg: oklch(0.958 0.028 20);
+  --hard-border: oklch(0.888 0.055 20);
+
+  --solved: oklch(0.505 0.128 156);
+  --revisiting: oklch(0.545 0.152 55);
+}
+
+.dark {
+  --background: oklch(0.161 0.006 266);
+  --foreground: oklch(0.955 0.004 262);
+
+  --card: oklch(0.196 0.007 266);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.207 0.008 266);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.685 0.168 268);
+  --primary-foreground: oklch(0.16 0.012 268);
+
+  --secondary: oklch(0.243 0.009 266);
+  --secondary-foreground: oklch(0.93 0.005 262);
+
+  --muted: oklch(0.235 0.008 266);
+  --muted-foreground: oklch(0.688 0.013 264);
+
+  --accent: oklch(0.262 0.011 266);
+  --accent-foreground: oklch(0.96 0.004 262);
+
+  --destructive: oklch(0.665 0.185 25);
+  --destructive-foreground: oklch(0.14 0.01 25);
+
+  --border: oklch(0.283 0.010 266);
+  --input: oklch(0.318 0.012 266);
+  --ring: oklch(0.685 0.168 268);
+
+  --easy: oklch(0.775 0.148 158);
+  --easy-bg: oklch(0.268 0.048 160);
+  --easy-border: oklch(0.365 0.070 159);
+
+  --medium: oklch(0.818 0.134 82);
+  --medium-bg: oklch(0.282 0.045 76);
+  --medium-border: oklch(0.382 0.066 78);
+
+  --hard: oklch(0.722 0.152 21);
+  --hard-bg: oklch(0.282 0.055 20);
+  --hard-border: oklch(0.382 0.080 20);
+
+  --solved: oklch(0.775 0.148 158);
+  --revisiting: oklch(0.818 0.134 72);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-easy: var(--easy);
+  --color-easy-bg: var(--easy-bg);
+  --color-easy-border: var(--easy-border);
+  --color-medium: var(--medium);
+  --color-medium-bg: var(--medium-bg);
+  --color-medium-border: var(--medium-border);
+  --color-hard: var(--hard);
+  --color-hard-bg: var(--hard-bg);
+  --color-hard-border: var(--hard-border);
+  --color-solved: var(--solved);
+  --color-revisiting: var(--revisiting);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tabular numerals everywhere numbers are compared column-wise. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* A single, consistent focus treatment across every interactive element. */
+  :focus-visible {
+    @apply outline-ring outline-2 outline-offset-2;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 26%, transparent);
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--foreground) 18%, transparent) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklch, var(--foreground) 16%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklch, var(--foreground) 28%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
