@@ -1,1 +1,1 @@
-{"slug":"bank-of-america","name":"Bank of America","periods":{"d30":[],"m3":[],"m6":[],"gt6m":[3313,100,137,82.7],"all":[3313,100,137,82.2]}}
+{"slug":"bank-of-america","name":"Bank of America","periods":{"d30":[],"m3":[2551,100],"m6":[2551,100],"gt6m":[3317,100,138,89.1],"all":[2551,100,138,92.5,3317,92.5]}}
